@@ -12,9 +12,6 @@ import android.widget.Button;
 
 public class MainActivity extends ActionBarActivity {
 
-//    @ViewById
-//    Button startButton;
-
     private View.OnClickListener startButtonListener = new View.OnClickListener() {
         public void onClick(View v) {
             Intent i = new Intent(getApplicationContext(), GameActivity.class);

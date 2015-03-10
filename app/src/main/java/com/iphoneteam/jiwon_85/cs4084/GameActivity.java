@@ -4,14 +4,45 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+
+import java.util.Random;
 
 
 public class GameActivity extends ActionBarActivity {
+
+    private short[] deck; //0-12 clovers, 13-25 hearts, 26-38 spades, 39-51 diamonds
+    private Button newCardButton;
+
+
+    private void displayCard(int num){
+        //we don't have any graphics yet
+    }
+
+    private View.OnClickListener newCardButtonListener = new View.OnClickListener() {
+        public void onClick(View v) {
+            int randomNum;
+            Random r = new Random();
+            do{
+                randomNum = r.nextInt(52); //double check this
+            } while(deck[randomNum] != 0);
+            TextView temp = (TextView) findViewById(R.id.placeholder);
+            temp.setText(""+randomNum);
+            displayCard(randomNum);
+            deck[randomNum] = 1;
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+        deck = new short[52];
+        newCardButton = (Button) findViewById(R.id.b_new_card);
+
+        newCardButton.setOnClickListener(newCardButtonListener);
     }
 
 

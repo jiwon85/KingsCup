@@ -9,6 +9,16 @@
     <TextView android:text="@string/placeholder" android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/placeholder" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Card"
+        android:id="@+id/b_new_card"
+        android:layout_marginTop="97dp"
+        android:layout_below="@+id/textView"
         android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
