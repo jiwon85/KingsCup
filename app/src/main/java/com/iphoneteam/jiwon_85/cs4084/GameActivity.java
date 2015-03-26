@@ -13,25 +13,34 @@ import java.util.Random;
 
 public class GameActivity extends ActionBarActivity {
 
-    private short[] deck; //0-12 clovers, 13-25 hearts, 26-38 spades, 39-51 diamonds
+//    private short[] deck; //0-12 clovers, 13-25 hearts, 26-38 spades, 39-51 diamonds
     private Button newCardButton;
 
-
-    private void displayCard(int num){
-        //we don't have any graphics yet
-    }
+    private Card[] deck;
+    private int king_count = 0;
 
     private View.OnClickListener newCardButtonListener = new View.OnClickListener() {
         public void onClick(View v) {
             int randomNum;
             Random r = new Random();
+            Card chosen = null;
             do{
                 randomNum = r.nextInt(52); //double check this
-            } while(deck[randomNum] != 0);
+                chosen = deck[randomNum];
+            } while(chosen.played == false);
             TextView temp = (TextView) findViewById(R.id.placeholder);
             temp.setText(""+randomNum);
-            displayCard(randomNum);
-            deck[randomNum] = 1;
+            chosen.displayImages();
+            if(chosen.suit == 13) {
+                king_count++;
+                if(king_count == 4) {
+                    //game over
+                }
+            }
+            else if(chosen.suit == 1) {
+                //camera feature
+            }
+            deck[randomNum].played = true;
         }
     };
 
@@ -39,7 +48,19 @@ public class GameActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
-        deck = new short[52];
+        deck = new Card[52];
+        for(int i = 0; i < 52; i++) {
+            if(i < 13)
+                deck[i] =  new Card((i%13)+1, 0);
+            else if(i < 26)
+                deck[i] =  new Card((i%13)+1, 1);
+            else if(i < 39)
+                deck[i] =  new Card((i%13)+1, 2);
+            else
+                deck[i] =  new Card((i%13)+1, 3);
+
+        }
+
         newCardButton = (Button) findViewById(R.id.b_new_card);
 
         newCardButton.setOnClickListener(newCardButtonListener);
