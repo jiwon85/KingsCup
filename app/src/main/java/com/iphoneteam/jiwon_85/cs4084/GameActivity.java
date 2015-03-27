@@ -1,5 +1,6 @@
 package com.iphoneteam.jiwon_85.cs4084;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -15,19 +16,26 @@ public class GameActivity extends ActionBarActivity {
 
 //    private short[] deck; //0-12 clovers, 13-25 hearts, 26-38 spades, 39-51 diamonds
     private Button newCardButton;
+    private Button cameraButton;
+    private static Random r = new Random();
 
     private Card[] deck;
     private int king_count = 0;
 
+    private View.OnClickListener cameraButtonListener = new View.OnClickListener() {
+        public void onClick(View v) {
+            Intent i = new Intent(getApplicationContext(), CameraActivity.class);
+            startActivity(i);
+        }
+    };
     private View.OnClickListener newCardButtonListener = new View.OnClickListener() {
         public void onClick(View v) {
             int randomNum;
-            Random r = new Random();
             Card chosen = null;
             do{
                 randomNum = r.nextInt(52); //double check this
                 chosen = deck[randomNum];
-            } while(chosen.played == false);
+            } while(chosen.played == true);
             TextView temp = (TextView) findViewById(R.id.placeholder);
             temp.setText(""+randomNum);
             chosen.displayImages();
@@ -37,8 +45,12 @@ public class GameActivity extends ActionBarActivity {
                     //game over
                 }
             }
-            else if(chosen.suit == 1) {
+            if(chosen.suit == 1) {
                 //camera feature
+                cameraButton.setVisibility(View.VISIBLE);
+            }
+            else {
+                cameraButton.setVisibility(View.INVISIBLE);
             }
             deck[randomNum].played = true;
         }
@@ -62,8 +74,9 @@ public class GameActivity extends ActionBarActivity {
         }
 
         newCardButton = (Button) findViewById(R.id.b_new_card);
-
+        cameraButton = (Button) findViewById(R.id.b_camera);
         newCardButton.setOnClickListener(newCardButtonListener);
+        cameraButton.setOnClickListener(cameraButtonListener);
     }
 
 
@@ -88,4 +101,5 @@ public class GameActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 }
