@@ -10,11 +10,11 @@
         android:layout_height="wrap_content"
         android:text="@string/start_game"
         android:id="@+id/b_start_game"
-        android:layout_marginBottom="197dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/b_drinking_age"
-        android:layout_alignEnd="@+id/b_drinking_age"
-        android:height="75dp" />
+        android:height="75dp"
+        android:layout_above="@+id/spinner_country"
+        android:layout_alignLeft="@+id/i_logo"
+        android:layout_alignStart="@+id/i_logo"
+        android:layout_marginBottom="92dp" />
 
     <ImageView
         android:layout_width="100dp"
@@ -31,8 +31,17 @@
         android:layout_height="wrap_content"
         android:text="@string/can_drink"
         android:id="@+id/b_drinking_age"
-        android:layout_marginBottom="96dp"
+        android:onClick="showCountryPicker"
+        android:layout_above="@+id/spinner_country"
+        android:layout_alignLeft="@+id/b_start_game"
+        android:layout_alignStart="@+id/b_start_game" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner_country"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

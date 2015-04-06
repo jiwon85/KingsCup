@@ -18,7 +18,11 @@
         android:text="New Card"
         android:id="@+id/b_new_card"
         android:layout_marginTop="97dp"
-        android:layout_below="@+id/textView"
         android:layout_centerHorizontal="true" />
+
+
+
+
+
 
 </RelativeLayout>
