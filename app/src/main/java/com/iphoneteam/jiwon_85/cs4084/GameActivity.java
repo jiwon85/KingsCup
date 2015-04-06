@@ -1,9 +1,13 @@
 package com.iphoneteam.jiwon_85.cs4084;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -119,6 +123,8 @@ public class GameActivity extends ActionBarActivity {
         }
     };
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -150,6 +156,12 @@ public class GameActivity extends ActionBarActivity {
     }
 
 
+
+
+
+
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -171,5 +183,6 @@ public class GameActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 
 }
