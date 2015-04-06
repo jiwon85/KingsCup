@@ -26,6 +26,7 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         Button startButton = (Button) findViewById(R.id.b_start_game);
+//        startButton.setTypeface(GameActivity.newFont);
         startButton.setOnClickListener(startButtonListener);
     }
 
