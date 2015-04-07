@@ -3,6 +3,7 @@ package com.iphoneteam.jiwon_85.cs4084;
 import android.content.Context;
 import android.graphics.Color;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -94,6 +95,55 @@ public class Card {
         }
 
         num_view.setImageResource(chosen_num);
+    }
+
+    public void displayText(TextView t) {
+        int string_id = R.string.ace;
+        switch(num) {
+            case 1:
+                string_id = R.string.ace;
+                break;
+            case 2:
+                string_id = R.string.two;
+                break;
+            case 3:
+                string_id = R.string.three;
+                break;
+            case 4:
+                string_id = R.string.four;
+                break;
+            case 5:
+                string_id = R.string.five;
+                break;
+            case 6:
+                string_id = R.string.six;
+                break;
+            case 7:
+                string_id = R.string.seven;
+                break;
+            case 8:
+                string_id = R.string.eight;
+                break;
+            case 9:
+                string_id = R.string.nine;
+                break;
+            case 10:
+                string_id = R.string.ten;
+                break;
+            case 11:
+                string_id = R.string.jack;
+                break;
+            case 12:
+                string_id = R.string.queen;
+                break;
+            case 13:
+                string_id = R.string.king;
+                break;
+            default:
+                //do nothing; already initialized;
+
+        }
+        t.setText(string_id);
     }
 
 

@@ -1,13 +1,11 @@
 package com.iphoneteam.jiwon_85.cs4084;
 
+import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.graphics.Typeface;
+import android.os.Vibrator;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,8 +27,9 @@ public class GameActivity extends ActionBarActivity {
     private ImageView suitView;
     private ImageView numView;
     private int randomNum;
-    protected final Typeface newFont = Typeface.createFromAsset(this.getAssets(),
-            "walkway.ttf");
+    private TextView textView;
+    private static final int GAME_OVER_REQUEST = 1;
+
 
     private Card[] deck;
     private int king_count = 0;
@@ -48,20 +47,25 @@ public class GameActivity extends ActionBarActivity {
                 randomNum = r.nextInt(52); //double check this
                 chosen = deck[randomNum];
             } while(chosen.played == true);
-            TextView temp = (TextView) findViewById(R.id.placeholder);
-            temp.setText(""+randomNum);
+
+            chosen.displayText(textView);
             chosen.displayImages(suitView, numView);
-            Toast.makeText(getApplicationContext(), "suit: "+deck[randomNum].suit+ " num: " + deck[randomNum].num,
-                    Toast.LENGTH_SHORT).show();
-            if(chosen.suit == 13) {
+            if(chosen.num == 13) {
                 king_count++;
-                if(king_count == 4) {
-                    //game over
-                }
-            }
-            if(chosen.suit == 1) {
-                //camera feature
                 cameraButton.setVisibility(View.VISIBLE);
+                Vibrator vib = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
+                vib.vibrate(500);
+                if(king_count == 2) {
+                    Toast.makeText(getApplicationContext(), getString(R.string.game_over),
+                            Toast.LENGTH_LONG).show();
+                    Intent i = new Intent(getApplicationContext(), CameraActivity.class);
+                    startActivity(i);
+                    finish();
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), getString(R.string.feature),
+                            Toast.LENGTH_SHORT).show();
+                }
             }
             else {
                 cameraButton.setVisibility(View.INVISIBLE);
@@ -69,11 +73,12 @@ public class GameActivity extends ActionBarActivity {
             deck[randomNum].played = true;
         }
     };
+
     private View.OnClickListener questionButtonListener = new View.OnClickListener() {
         public void onClick(View v) {
             if(randomNum >= 0 && randomNum <= 51) {
                 int num = deck[randomNum].num;
-                String text = getString(R.string.ace_rule);
+                String text = getString(R.string.default_rule);
                 switch(num) {
                     case 1:
                         text = getString(R.string.ace_rule);
@@ -114,8 +119,6 @@ public class GameActivity extends ActionBarActivity {
                     case 13:
                         text = getString(R.string.king_rule);
                         break;
-                    default:
-                        //do nothing; already initialized;
                 }
                 Toast.makeText(getApplicationContext(), text,
                         Toast.LENGTH_LONG).show();
@@ -142,25 +145,26 @@ public class GameActivity extends ActionBarActivity {
 
         }
 
+        Typeface newFont = Typeface.createFromAsset(getBaseContext().getAssets(),"walkway.ttf");
+
         newCardButton = (Button) findViewById(R.id.b_new_card);
         newCardButton.setTypeface(newFont);
+        newCardButton.setOnClickListener(newCardButtonListener);
+
         cameraButton = (Button) findViewById(R.id.b_camera);
         cameraButton.setTypeface(newFont);
-        numView = (ImageView) findViewById(R.id.num_view);
-        suitView = (ImageView) findViewById(R.id.suit_view);
+        cameraButton.setOnClickListener(cameraButtonListener);
+
         questionButton = (Button) findViewById(R.id.b_question);
         questionButton.setTypeface(newFont);
-        newCardButton.setOnClickListener(newCardButtonListener);
-        cameraButton.setOnClickListener(cameraButtonListener);
         questionButton.setOnClickListener(questionButtonListener);
+
+        numView = (ImageView) findViewById(R.id.num_view);
+        suitView = (ImageView) findViewById(R.id.suit_view);
+
+        textView = (TextView) findViewById(R.id.placeholder);
+        textView.setTypeface(newFont);
     }
-
-
-
-
-
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
