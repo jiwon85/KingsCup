@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.os.Vibrator;
 
 import java.util.Random;
 
@@ -58,6 +59,7 @@ public class GameActivity extends ActionBarActivity {
                 if(king_count == 2) {
                     Toast.makeText(getApplicationContext(), getString(R.string.game_over),
                             Toast.LENGTH_LONG).show();
+                    vib.vibrate(1000);
                     Intent i = new Intent(getApplicationContext(), CameraActivity.class);
                     startActivity(i);
                     finish();

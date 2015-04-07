@@ -174,6 +174,7 @@ public class CameraActivity extends ActionBarActivity {
     }
 
     @Override
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // Check which request we're responding to
         if (requestCode == REQUEST_TAKE_PHOTO) {
@@ -187,6 +188,7 @@ public class CameraActivity extends ActionBarActivity {
             else{
                 finish();
             }
+
         }
     }
 }
