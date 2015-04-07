@@ -10,7 +10,7 @@ import android.widget.Toast;
  * Created by jiwon_85 on 3/25/15.
  */
 public class Card {
-    // 0: spades, 1: hearts, 2: clubs, 3:diamonds
+    // 0: , 1: hearts, 2: clubs, 3:diamonds
     protected int suit;
     //A=1,2,3,4,5,6,7,8,9,10,j=11,q=12,k=13
     protected int num;
