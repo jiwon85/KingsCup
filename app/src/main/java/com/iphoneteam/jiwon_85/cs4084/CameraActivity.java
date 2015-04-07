@@ -197,7 +197,7 @@ public class CameraActivity extends ActionBarActivity {
         super.onRestart();
         if(shareFlag) {
             String type = "image/*";
-            String captionText = "Waterfall anyone? King's Cup available now on the Google Play Store!";
+            String captionText = "Waterfall anyone? king's Cup available now on the Google Play Store!";
             createShareToIntent(type, captionText);
             shareFlag = false;
         }

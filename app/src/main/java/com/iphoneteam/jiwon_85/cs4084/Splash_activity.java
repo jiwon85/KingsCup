@@ -2,52 +2,49 @@ package com.iphoneteam.jiwon_85.cs4084;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.content.Intent;
-import android.os.Handler;
+
 
 
 public class Splash_activity extends Activity  {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash_activity);
 
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_splash_activity);
 
-        int myTimer = 3000;
-          new Handler().postDelayed(new Runnable() {
+// METHOD 1
 
-            @Override
-            public void run() {
-                Intent i = new Intent(Splash_activity.this, MainActivity.class);
-                startActivity(i);
-                finish(); // close this activity
-            }
-        }, myTimer);
-    }
+            /****** Create Thread that will sleep for 5 seconds *************/
+            Thread background = new Thread() {
+                public void run() {
 
+                    try {
+                        // Thread will sleep for 5 seconds
+                        sleep(5*1000);
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_splash_activity, menu);
-        return true;
-    }
+                        // After 5 seconds redirect to another intent
+                        Intent i=new Intent(getBaseContext(),MainActivity.class);
+                        startActivity(i);
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+                        //Remove activity
+                        finish();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+                    } catch (Exception e) {
+
+                    }
+                }
+            };
+
+            // start thread
+            background.start();
         }
 
-        return super.onOptionsItemSelected(item);
+        @Override
+        protected void onDestroy() {
+
+            super.onDestroy();
+
+        }
     }
-}

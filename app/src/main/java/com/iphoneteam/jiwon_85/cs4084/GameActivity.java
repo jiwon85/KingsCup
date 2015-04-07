@@ -1,5 +1,6 @@
 package com.iphoneteam.jiwon_85.cs4084;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -15,6 +16,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.os.Vibrator;
 
 import java.util.Random;
 
@@ -55,8 +57,14 @@ public class GameActivity extends ActionBarActivity {
                     Toast.LENGTH_SHORT).show();
             if(chosen.suit == 13) {
                 king_count++;
+                Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                // Vibrate for 500 milliseconds
+                vibrator.vibrate(500);
+
                 if(king_count == 4) {
                     //game over
+                    // Vibrate for 1 second
+                    vibrator.vibrate(1000);
                 }
             }
             if(chosen.suit == 1) {
