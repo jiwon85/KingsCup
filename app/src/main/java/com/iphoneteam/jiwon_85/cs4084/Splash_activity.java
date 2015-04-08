@@ -5,46 +5,69 @@ import android.os.Bundle;
 import android.content.Intent;
 
 
+/*
+    Splash activity: For initial splash screen and loading screen
+        in between camera image overlay (for filter)
+    Authors: Conor Moroney, Ji Won Min
+ */
 
 public class Splash_activity extends Activity  {
-
+        private Boolean restart = false;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_splash_activity);
 
-// METHOD 1
-
-            /****** Create Thread that will sleep for 5 seconds *************/
-            Thread background = new Thread() {
-                public void run() {
-
-                    try {
-                        // Thread will sleep for 5 seconds
-                        sleep(5*1000);
-
-                        // After 5 seconds redirect to another intent
-                        Intent i=new Intent(getBaseContext(),MainActivity.class);
-                        startActivity(i);
-
-                        //Remove activity
-                        finish();
-
-                    } catch (Exception e) {
-
-                    }
+            Bundle extras = getIntent().getExtras();
+            if(extras!=null){
+                Boolean flag = extras.getBoolean("LOADING");
+                if(flag != null) {
+                    restart = true;
                 }
-            };
 
-            // start thread
-            background.start();
+
+            }
+            else{
+                /****** Create Thread that will sleep for 5 seconds *************/
+                Thread background = new Thread() {
+                    public void run() {
+
+                        try {
+                            // Thread will sleep for 5 seconds
+                            sleep(3*1000);
+
+                            // After 5 seconds redirect to another intent
+                            Intent i=new Intent(getBaseContext(),MainActivity.class);
+                            startActivity(i);
+
+
+
+                        } catch (Exception e) {
+
+                        }
+                        finally {
+                            finish();
+                        }
+                    }
+                };
+
+                // start thread
+                background.start();
+            }
+
         }
 
         @Override
-        protected void onDestroy() {
-
-            super.onDestroy();
-
+        public void onPause(){
+            super.onPause();
+            if(restart)
+                finish();
+            else{
+                Intent i=new Intent(getBaseContext(),MainActivity.class);
+                startActivity(i);
+            }
         }
+
+
     }

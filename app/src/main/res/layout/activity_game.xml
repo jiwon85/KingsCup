@@ -38,20 +38,21 @@
         android:padding="10dp" />
 
     <ImageView
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:id="@+id/suit_view"
+        android:layout_width="125dp"
+        android:layout_height="125dp"
+        android:id="@+id/num_view"
         android:src="@drawable/kinglogo"
         android:focusable="false"
-        android:layout_below="@+id/placeholder"
+        android:layout_above="@+id/suit_view"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="42dp" />
+        android:layout_marginBottom="28dp" />
 
     <ImageView
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:id="@+id/num_view"
-        android:layout_centerVertical="true"
+        android:id="@+id/suit_view"
+        android:layout_marginBottom="32dp"
+        android:layout_above="@+id/b_new_card"
         android:layout_centerHorizontal="true" />
 
     <Button

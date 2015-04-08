@@ -32,7 +32,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/take_picture"
+        android:text="@string/can_drink"
         android:id="@+id/b_drinking_age"
         android:background="@drawable/button_shape"
         android:onClick="showCountryPicker"

@@ -16,6 +16,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 
+
+/*
+    Main Activity: Main menu of game
+    Authors: Conor Moroney, Ji Won Min
+ */
 public class MainActivity extends ActionBarActivity {
 
 
@@ -26,9 +31,6 @@ public class MainActivity extends ActionBarActivity {
             startActivity(i);
         }
     };
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,9 +50,6 @@ public class MainActivity extends ActionBarActivity {
 
 
         final Spinner Country_Spinner = (Spinner)findViewById(R.id.spinner_country);
-        //code for selecting country to determine drinking age
-//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-//                R.array.country_array, android.R.layout.simple_spinner_dropdown_item);
 
 
         ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(this,
@@ -62,7 +61,6 @@ public class MainActivity extends ActionBarActivity {
                 ((TextView) v).setTypeface(externalFont);
                 return v;
             }
-
 
 
             public View getDropDownView(int position,  View convertView,  ViewGroup parent) {

@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -25,6 +26,12 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+
+/*
+    Camera Activity: Contains all components of camera feature when
+        King card is drawn.
+    Authors: Conor Moroney, Ji Won Min
+ */
 
 public class CameraActivity extends ActionBarActivity {
 
@@ -37,13 +44,12 @@ public class CameraActivity extends ActionBarActivity {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-
-
             try {
                 photoFile = createImageFile();
             } catch (IOException ex) {
-
-                // TODO: throw error, maybe a toast
+                Toast.makeText(getApplicationContext(), getString(R.string.error),
+                        Toast.LENGTH_SHORT).show();
+                finish();
             }
             if (photoFile != null) {
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
@@ -52,9 +58,6 @@ public class CameraActivity extends ActionBarActivity {
 
             }
         }
-
-
-
     }
 
     private void createShareToIntent(String type, String caption){
@@ -68,11 +71,11 @@ public class CameraActivity extends ActionBarActivity {
         try {
             overlay();
         } catch(IOException e){
-            //TODO: toast showing error in adding crown
+            Toast.makeText(getApplicationContext(), getString(R.string.error),
+                    Toast.LENGTH_SHORT).show();
+            finish();
         };
 
-//        addImageToGallery(photoFile.getAbsolutePath(), getApplicationContext());
-        //TODO: send toast saying pic was saved to gallery
 
         Uri uri = Uri.fromFile(photoFile);
 
@@ -82,17 +85,6 @@ public class CameraActivity extends ActionBarActivity {
 
         // Broadcast the Intent.
         startActivity(Intent.createChooser(share, "Share to"));
-    }
-
-    public static void addImageToGallery(final String filePath, final Context context) {
-
-        ContentValues values = new ContentValues();
-
-        values.put(Images.Media.DATE_TAKEN, System.currentTimeMillis());
-        values.put(Images.Media.MIME_TYPE, "image/jpeg");
-        values.put(MediaStore.MediaColumns.DATA, filePath);
-
-        context.getContentResolver().insert(Images.Media.EXTERNAL_CONTENT_URI, values);
     }
 
     private File createImageFile() throws IOException {
@@ -107,17 +99,15 @@ public class CameraActivity extends ActionBarActivity {
                 storageDir      /* directory */
         );
 
-
-
-
         return image;
     }
 
     //    private Bitmap overlay(Bitmap bmp1, Bitmap bmp2) {
     private void overlay() throws IOException {
 
+
         Bitmap bmp2 = BitmapFactory.decodeResource(this.getResources(),
-                R.drawable.filter3);
+                R.drawable.filter);
 
         Bitmap bmp1 = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
 
@@ -143,7 +133,8 @@ public class CameraActivity extends ActionBarActivity {
             bmp1 = Bitmap.createBitmap(bmp1, 0, 0, bmp1.getWidth(), bmp1.getHeight(), matrix, true); // rotating bitmap
         }
         catch (Exception e) {
-            //TODO:error
+            Toast.makeText(getApplicationContext(), getString(R.string.error),
+                    Toast.LENGTH_SHORT).show();
         }
 
 
@@ -171,38 +162,46 @@ public class CameraActivity extends ActionBarActivity {
 
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_camera, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
     public void onRestart(){
         super.onRestart();
-        if(shareFlag) {
-            String type = "image/*";
-            String captionText = "Waterfall anyone? King's Cup available now on the Google Play Store!";
-            createShareToIntent(type, captionText);
-            shareFlag = false;
-        }
-        else{
-            finish();
+        finish();
+    }
+
+    @Override
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Check which request we're responding to
+        if (requestCode == REQUEST_TAKE_PHOTO) {
+            // Make sure the request was successful
+            if (resultCode == RESULT_OK && shareFlag) {
+
+                Thread background = new Thread() {
+                    public void run() {
+
+                        try {
+
+                            String type = "image/*";
+                            String captionText = getString(R.string.caption);
+                            createShareToIntent(type, captionText);
+                            shareFlag = false;
+
+                        } catch (Exception e) {
+
+                        }
+                        finally {
+                            finish();
+                        }
+                    }
+                };
+                background.start();
+                Intent i = new Intent(getApplicationContext(), Splash_activity.class);
+                i.putExtra("LOADING", true);
+                startActivity(i); //loading screen
+            }
+            else{
+                finish();
+            }
+
         }
     }
 }
