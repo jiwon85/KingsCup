@@ -1,7 +1,6 @@
 package com.iphoneteam.jiwon_85.cs4084;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,6 +21,7 @@ import android.widget.TextView;
     Authors: Conor Moroney, Ji Won Min
  */
 public class MainActivity extends ActionBarActivity {
+
 
 
 
@@ -84,9 +84,8 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View v) {
                 String NO_Country = "https://www.google.ie/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#q=drinking+age+in+";
                 String text = Country_Spinner.getSelectedItem().toString();
-                String SelectedCountry = NO_Country + text;
-                final String DrinkingAgeURL = SelectedCountry;//was made final for some reason
-                Intent DrinkAge = new Intent(Intent.ACTION_VIEW,Uri.parse(DrinkingAgeURL));
+                final String SelectedCountry = NO_Country + text;
+                Intent DrinkAge = new Intent(Intent.ACTION_VIEW,Uri.parse(SelectedCountry));
                 startActivity(DrinkAge);
             }
         });

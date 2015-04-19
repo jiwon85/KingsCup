@@ -1,8 +1,5 @@
 package com.iphoneteam.jiwon_85.cs4084;
 
-import android.app.Activity;
-import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,12 +9,9 @@ import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.provider.MediaStore.Images;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.Toast;
 
 import java.io.File;
@@ -38,7 +32,6 @@ public class CameraActivity extends ActionBarActivity {
 
     private static final int REQUEST_TAKE_PHOTO = 1;
     private File photoFile;
-    private Boolean shareFlag = false;
 
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -74,7 +67,7 @@ public class CameraActivity extends ActionBarActivity {
             Toast.makeText(getApplicationContext(), getString(R.string.error),
                     Toast.LENGTH_SHORT).show();
             finish();
-        };
+        }
 
 
         Uri uri = Uri.fromFile(photoFile);
@@ -93,13 +86,11 @@ public class CameraActivity extends ActionBarActivity {
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
+        return File.createTempFile(
                 imageFileName,  /* prefix */
                 ".jpg",         /* suffix */
                 storageDir      /* directory */
         );
-
-        return image;
     }
 
     //    private Bitmap overlay(Bitmap bmp1, Bitmap bmp2) {
@@ -111,23 +102,28 @@ public class CameraActivity extends ActionBarActivity {
 
         Bitmap bmp1 = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
 
+        //crop to square
         int width = bmp1.getWidth();
         int height = bmp1.getHeight();
         int crop = (width - height) / 2;
         bmp1 = Bitmap.createBitmap(bmp1, crop, 0, height, height);
+
+        //scales the picture to the size of the filter
         bmp1 = Bitmap.createScaledBitmap(bmp1, bmp2.getWidth(), bmp2.getHeight(), false);
+
         try {
             ExifInterface exif = new ExifInterface(photoFile.getAbsolutePath());
             int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 1);
             Log.d("EXIF", "Exif: " + orientation);
             Matrix matrix = new Matrix();
-            if (orientation == 6) {
+            //http://developer.android.com/reference/android/media/ExifInterface.html#ORIENTATION_ROTATE_180
+            if (orientation == 6) { //orientation is facing left
                 matrix.postRotate(90);
             }
-            else if (orientation == 3) {
+            else if (orientation == 3) { //orientation is upside down
                 matrix.postRotate(180);
             }
-            else if (orientation == 8) {
+            else if (orientation == 8) { //orientation is facing right
                 matrix.postRotate(270);
             }
             bmp1 = Bitmap.createBitmap(bmp1, 0, 0, bmp1.getWidth(), bmp1.getHeight(), matrix, true); // rotating bitmap
@@ -144,9 +140,10 @@ public class CameraActivity extends ActionBarActivity {
         canvas.drawBitmap(bmp2, new Matrix(), null);
 
 
+
         FileOutputStream fOut = new FileOutputStream(photoFile);
 
-        bmOverlay.compress(Bitmap.CompressFormat.PNG, 85, fOut);
+        bmOverlay.compress(Bitmap.CompressFormat.PNG, 100, fOut);
         fOut.flush();
         fOut.close();
     }
@@ -157,7 +154,6 @@ public class CameraActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
         dispatchTakePictureIntent();
-        shareFlag = true;
     }
 
 
@@ -173,7 +169,7 @@ public class CameraActivity extends ActionBarActivity {
         // Check which request we're responding to
         if (requestCode == REQUEST_TAKE_PHOTO) {
             // Make sure the request was successful
-            if (resultCode == RESULT_OK && shareFlag) {
+            if (resultCode == RESULT_OK) {
 
                 Thread background = new Thread() {
                     public void run() {
@@ -183,10 +179,10 @@ public class CameraActivity extends ActionBarActivity {
                             String type = "image/*";
                             String captionText = getString(R.string.caption);
                             createShareToIntent(type, captionText);
-                            shareFlag = false;
 
                         } catch (Exception e) {
-
+                            Toast.makeText(getApplicationContext(), getString(R.string.error),
+                                    Toast.LENGTH_SHORT).show();
                         }
                         finally {
                             finish();

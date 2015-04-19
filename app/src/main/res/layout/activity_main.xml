@@ -35,7 +35,6 @@
         android:text="@string/can_drink"
         android:id="@+id/b_drinking_age"
         android:background="@drawable/button_shape"
-        android:onClick="showCountryPicker"
         android:layout_above="@+id/spinner_country"
         android:layout_centerHorizontal="true"
         android:padding="10dp" />

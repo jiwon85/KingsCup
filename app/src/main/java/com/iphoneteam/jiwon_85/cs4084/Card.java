@@ -1,14 +1,15 @@
 package com.iphoneteam.jiwon_85.cs4084;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-/**
- * Created by jiwon_85 on 3/25/15.
+
+/*
+    Card object: encapsulating card actions
+    Authors: Conor Moroney, Ji Won Min
  */
+
 public class Card {
     // 0: , 1: hearts, 2: clubs, 3:diamonds
     protected int suit;

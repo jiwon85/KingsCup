@@ -13,7 +13,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.os.Vibrator;
 
 import java.util.Random;
 
@@ -34,7 +33,6 @@ public class GameActivity extends ActionBarActivity {
     private ImageView numView;
     private int randomNum;
     private TextView textView;
-    private static final int GAME_OVER_REQUEST = 1;
     private Vibrator vib;
 
 
@@ -49,11 +47,11 @@ public class GameActivity extends ActionBarActivity {
     };
     private View.OnClickListener newCardButtonListener = new View.OnClickListener() {
         public void onClick(View v) {
-            Card chosen = null;
+            Card chosen;
             do{
                 randomNum = r.nextInt(52); //double check this
                 chosen = deck[randomNum];
-            } while(chosen.played == true);
+            } while(chosen.played);
 
             chosen.displayText(textView);
             chosen.displayImages(suitView, numView);
